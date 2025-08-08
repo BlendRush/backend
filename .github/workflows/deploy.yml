@@ -1,0 +1,40 @@
+name: Deploy to EC2 using Docker & Terraform
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  EC2_HOST: ${{ secrets.EC2_HOST }}
+  EC2_USER: ${{ secrets.EC2_USER }}
+  PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+
+jobs:
+  deploy:
+    name: Deploy to EC2
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${PRIVATE_KEY}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H $EC2_HOST >> ~/.ssh/known_hosts
+
+      - name: Copy project files to EC2
+        run: |
+          rsync -avz --exclude '.git*' --exclude 'node_modules' ./ $EC2_USER@$EC2_HOST:/home/$EC2_USER/app
+
+      - name: SSH and run Docker Compose
+        run: |
+          ssh $EC2_USER@$EC2_HOST << 'EOF'
+            cd /home/$EC2_USER/app
+            docker-compose down
+            docker-compose build
+            docker-compose up -d
+          EOF
