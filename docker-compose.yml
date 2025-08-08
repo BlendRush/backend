@@ -26,3 +26,11 @@ services:
       - MONGODB_URI=${MONGODB_URI_USER_SERVICE}
       - ENCRYPTION_KEY=${ENCRYPTION_KEY}
       - ACCESS_TOKEN=${ACCESS_TOKEN}
+
+  order-service:
+    build: ./order-service
+    ports:
+      - "3002:3002"
+    environment:
+      - MONGODB_URI=${MONGODB_URI_ORDER_SERVICE}
+      - ACCESS_TOKEN=${ACCESS_TOKEN_ORDER_SERVICE}
