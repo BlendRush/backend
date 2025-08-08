@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "3000:3000"
+    depends_on:
+      - menu-service
+
+  menu-service:
+    build: ./menu-service
+    ports:
+      - "3001:3001"
+    environment:
+      - MONGODB_URI=${mongodb+srv://blissme:Blissme%40123@menu-service.kl9itfh.mongodb.net/?retryWrites=true&w=majority&appName=menu-service}
+      - CLOUDINARY_CLOUD_NAME=${dxpeb7uve}
+      - CLOUDINARY_API_KEY=${241237125277574}
+      - CLOUDINARY_API_SECRET=${UKo6AM5gOyJ4u1xr1Vjcg7wc5ts}
