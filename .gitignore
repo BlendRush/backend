@@ -6,4 +6,4 @@ node_modules/
 crash.log
 *.backup
 *.log
-
+.env
