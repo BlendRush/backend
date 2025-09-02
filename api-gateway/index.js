@@ -8,7 +8,7 @@ app.use('/api/orders', createProxyMiddleware({ target: 'http://order-service:300
 app.use('/api/user', createProxyMiddleware({ target: 'http://user-service:3003', changeOrigin: true })); */
 
 app.use(cors({
-    origin: 'http://localhost:3001',
+    origin: 'http://localhost:3004',
     methods: ['GET','POST','PUT','DELETE'],
     credentials: true
 }));

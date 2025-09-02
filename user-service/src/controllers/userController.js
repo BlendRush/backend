@@ -2,6 +2,8 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const User = require("../models/userModel");
 const { encryptText } = require("../utils/encryption");
+const { sendResetEmail } = require("../utils/mailer");
+require("dotenv").config();
 
 const signup = async (req, res) => {
   try {
@@ -99,7 +101,7 @@ const forgetPassword = async (req, res) => {
   }
 };
 
-const resetPassword =  async (req, res) => {
+const resetPassword = async (req, res) => {
   try {
     const { token, newPassword } = req.body;
 
@@ -123,4 +125,4 @@ const resetPassword =  async (req, res) => {
   }
 };
 
-module.exports = { signup, login ,forgetPassword,resetPassword };
+module.exports = { signup, login, forgetPassword, resetPassword };
