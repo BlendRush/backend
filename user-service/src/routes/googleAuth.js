@@ -2,8 +2,8 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 require("../utils/passport");
+require("dotenv").config();
 const router = express.Router();
-
 router.get(
   "/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
