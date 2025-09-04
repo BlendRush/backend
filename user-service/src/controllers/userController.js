@@ -2,6 +2,8 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const User = require("../models/userModel");
 const { encryptText } = require("../utils/encryption");
+const { sendResetEmail } = require("../utils/mailer");
+require("dotenv").config();
 
 const signup = async (req, res) => {
   try {
@@ -71,4 +73,56 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { signup, login };
+const forgetPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const encryptedEmail = encryptText(email);
+    const user = await User.findOne({ email: encryptedEmail });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const resetToken = jwt.sign(
+      { email: user.email },
+      process.env.ACCESS_TOKEN,
+      {
+        expiresIn: "15m",
+      }
+    );
+
+    await sendResetEmail(email, resetToken);
+
+    res.status(200).json({ message: "Reset link sent to your email" });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Something went wrong. Please try again." });
+  }
+};
+
+const resetPassword = async (req, res) => {
+  try {
+    const { token, newPassword } = req.body;
+
+    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN);
+    const email = decoded.email;
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    await user.save();
+
+    res.status(200).json({ message: "Password reset successfully." });
+  } catch (error) {
+    console.error("Reset password error:", error);
+    res.status(400).json({ message: "Invalid or expired token" });
+  }
+};
+
+module.exports = { signup, login, forgetPassword, resetPassword };
