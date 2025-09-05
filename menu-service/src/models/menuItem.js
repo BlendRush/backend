@@ -10,7 +10,10 @@ const menuItemSchema = new mongoose.Schema({
     name: String,
     ingredients: [String],
     price: Number,
-    imageUrl: String,
+    kcal : Number,
+    category :String,
+    tags : [String],
+    image: String,
 });
 
 menuItemSchema.plugin(AutoIncrement, { inc_field: "itemId" });
