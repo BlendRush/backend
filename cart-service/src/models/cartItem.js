@@ -10,5 +10,6 @@ const cartItemSchema = new mongoose.Schema({
 }, {
   timestamps: true,
 });
+cartItemSchema.index({ userId: 1, itemId: 1 }, { unique: true });
 
 module.exports = mongoose.model("CartItem", cartItemSchema);
