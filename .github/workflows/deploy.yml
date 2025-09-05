@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - supuni-dev
 
 env:
   EC2_HOST: ${{ secrets.EC2_HOST }}
