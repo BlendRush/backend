@@ -10,7 +10,7 @@ app.use('/api/carts', createProxyMiddleware({ target: 'http://cart-service:3005'
 
 
 app.use(cors({
-    origin: 'http://localhost:3004',
+    origin: 'https://blendrush.netlify.app',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 }));
