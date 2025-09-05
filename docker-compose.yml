@@ -13,6 +13,8 @@ services:
 
   menu-service:
     build: ./menu-service
+    env_file:
+      - .env
     ports:
       - "3001:3001"
     environment:
@@ -23,6 +25,8 @@ services:
 
   user-service:
     build: ./user-service
+    env_file:
+      - .env
     ports:
       - "3003:3003"
     environment:
@@ -37,6 +41,8 @@ services:
 
   order-service:
     build: ./order-service
+    env_file:
+      - .env
     ports:
       - "3002:3002"
     environment:
@@ -45,6 +51,8 @@ services:
 
   cart-service:
     build: ./cart-service
+    env_file:
+      - .env
     ports:
       - "3005:3005"
     environment:
