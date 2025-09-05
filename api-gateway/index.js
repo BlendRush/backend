@@ -4,10 +4,12 @@ const cors = require("cors");
 const app = express();
 
 app.use(cors({
-    origin: 'https://blendrush.netlify.app/',
+    origin: 'https://blendrush.netlify.app',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 }));
+
+app.options('*', cors());
 
 app.use('/api/menu', createProxyMiddleware({ target: 'http://menu-service:3001', changeOrigin: true }));
 app.use('/api/orders', createProxyMiddleware({ target: 'http://order-service:3002', changeOrigin: true }));
