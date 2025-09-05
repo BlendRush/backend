@@ -26,6 +26,11 @@ services:
       - MONGODB_URI=${MONGODB_URI_USER_SERVICE}
       - ENCRYPTION_KEY=${ENCRYPTION_KEY}
       - ACCESS_TOKEN=${ACCESS_TOKEN}
+      - EMAIL_USER=${EMAIL_USER}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - CLIENT_ID=${CLIENT_ID}
+      - CLIENT_SECRET=${CLIENT_SECRET}
+      - CLIENT_URL=${CLIENT_URL}
 
   order-service:
     build: ./order-service
@@ -34,3 +39,11 @@ services:
     environment:
       - MONGODB_URI=${MONGODB_URI_ORDER_SERVICE}
       - ACCESS_TOKEN=${ACCESS_TOKEN_ORDER_SERVICE}
+
+  cart-service:
+    build: ./cart-service
+    ports:
+      - "3005:3005"
+    environment:
+      - MONGODB_URI=${MONGODB_URI_CART_SERVICE}
+      - ACCESS_TOKEN=${ACCESS_TOKEN}
