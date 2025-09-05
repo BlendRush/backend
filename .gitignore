@@ -9,4 +9,10 @@ crash.log
 *.log
 .env
 
+./api-gateway/.env
+./cart-service/.env
+./menu-service/.env
+./order-service/.env    
+./user-service/.env
+
 
