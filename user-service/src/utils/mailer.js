@@ -10,7 +10,7 @@ const transporter = nodemailer.createTransport({
 })
 
 const sendResetEmail = async (to, resetToken) => {
-  const resetUrl = `http://localhost:3004/reset-pw?token=${resetToken}`;
+  const resetUrl = `https://blendrush.netlify.app/reset-pw?token=${resetToken}`;
 
   const mailOptions = {
     from: `"blendRUSH App" <${process.env.EMAIL_USER}>`,
