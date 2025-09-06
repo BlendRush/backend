@@ -7,9 +7,14 @@ services:
       - "3000:3000"
     depends_on:
       - menu-service
+      - user-service
+      - order-service
+      - cart-service
 
   menu-service:
     build: ./menu-service
+    env_file:
+      - .env
     ports:
       - "3001:3001"
     environment:
@@ -20,17 +25,36 @@ services:
 
   user-service:
     build: ./user-service
+    env_file:
+      - .env
     ports:
       - "3003:3003"
     environment:
       - MONGODB_URI=${MONGODB_URI_USER_SERVICE}
       - ENCRYPTION_KEY=${ENCRYPTION_KEY}
       - ACCESS_TOKEN=${ACCESS_TOKEN}
+      - EMAIL_USER=${EMAIL_USER}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - CLIENT_ID=${CLIENT_ID}
+      - CLIENT_SECRET=${CLIENT_SECRET}
+      - CLIENT_URL=${CLIENT_URL}
 
   order-service:
     build: ./order-service
+    env_file:
+      - .env
     ports:
       - "3002:3002"
     environment:
       - MONGODB_URI=${MONGODB_URI_ORDER_SERVICE}
       - ACCESS_TOKEN=${ACCESS_TOKEN_ORDER_SERVICE}
+
+  cart-service:
+    build: ./cart-service
+    env_file:
+      - .env
+    ports:
+      - "3005:3005"
+    environment:
+      - MONGODB_URI=${MONGODB_URI_CART_SERVICE}
+      - ACCESS_TOKEN=${ACCESS_TOKEN}
