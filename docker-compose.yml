@@ -48,6 +48,8 @@ services:
     environment:
       - MONGODB_URI=${MONGODB_URI_ORDER_SERVICE}
       - ACCESS_TOKEN=${ACCESS_TOKEN_ORDER_SERVICE}
+      - EMAIL_USER=${EMAIL_USER}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
 
   cart-service:
     build: ./cart-service
