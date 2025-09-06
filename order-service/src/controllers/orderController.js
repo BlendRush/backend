@@ -30,7 +30,6 @@ const placeOrder = async (req, res) => {
       Number(delivery) || 0,
       Number(tax) || 0
     );
-
     await sendOrderConfirmationEmail(email);
 
     res.status(201).json({ message: "Order placed successfully", order });
