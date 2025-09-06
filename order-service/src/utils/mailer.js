@@ -9,30 +9,41 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const sendOrderSuccessEmail = async (to, order) => {
+const sendOrderConfirmationEmail = async (to, order) => {
   const mailOptions = {
     from: `"blendRUSH App" <${process.env.EMAIL_USER}>`,
     to,
-    subject: "Your Order Has Been Placed Successfully – blendRUSH",
+    subject: "Your blendRUSH Order Confirmation ✅",
     html: `
       <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; padding: 20px;">
-        <h2 style="color: #4CAF50;">🎉 Order Confirmed!</h2>
+        <h2 style="color: #4CAF50;">Thank you for your order!</h2>
         <p>Hi there,</p>
-        <p>Thank you for shopping with <strong>blendRUSH</strong>! Your order has been placed successfully.</p>
-        
-        <h3 style="color: #333;">Order Details</h3>
+        <p>Your order has been placed successfully. 🎉</p>
+
+        <h3>Order Summary</h3>
         <ul>
-          <li><strong>Order ID:</strong> ${order.orderID}</li>
-          <li><strong>Total Amount:</strong> $${order.totalAmount}</li>
-          <li><strong>Items:</strong> ${order.items
-            .map((item) => `${item.name} (x${item.qty})`)
-            .join(", ")}</li>
+          ${order.items
+            .map(
+              (item) => `
+            <li>
+              ${item.name} × ${item.quantity} – $${(item.price * item.quantity).toFixed(2)}
+            </li>
+          `
+            )
+            .join("")}
         </ul>
-        
-        <p>We’ll notify you once your order is shipped. 🚚</p>
-        
+
+        <p><strong>Subtotal:</strong> $${order.subtotal.toFixed(2)}</p>
+        <p><strong>Delivery:</strong> $${order.delivery.toFixed(2)}</p>
+        <p><strong>Tax:</strong> $${order.tax.toFixed(2)}</p>
+        <p><strong>Total:</strong> <span style="color: #4CAF50; font-size: 16px;">
+          $${order.totalAmount.toFixed(2)}
+        </span></p>
+
         <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
-        <p style="font-size: 12px; color: #999;">If you didn’t place this order, please contact our support team immediately.</p>
+        <p style="font-size: 12px; color: #999;">
+          If you have any questions, reply to this email or contact our support team.
+        </p>
         <p style="font-size: 12px; color: #999;">– The blendRUSH Team</p>
       </div>
     `,
@@ -41,4 +52,5 @@ const sendOrderSuccessEmail = async (to, order) => {
   await transporter.sendMail(mailOptions);
 };
 
-module.exports = { sendOrderSuccessEmail };
+
+module.exports = { sendOrderConfirmationEmail };
